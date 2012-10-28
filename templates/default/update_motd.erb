@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Gather system stats
+CPUTIME=$(<%= node['motd']['cputime'] %>)
+CPUCORES=$(<%= node['motd']['cpucores'] %>)
+LOADAVG=$(<%= node['motd']['loadavg'] %>)
+FREEMEM=$(<%= node['motd']['freemem'] %>)
+REALMEM=$(<%= node['motd']['realmem'] %>)
+CACHEMEM=$(<%= node['motd']['cachemem'] %>)
+SWAPMEM="$(<%= node['motd']['swapmem'] %>)"
+CPUAVG=`ruby -e "puts $CPUTIME / $CPUCORES * 100"`
+
+# Write the head to the temp file
+if [ -f <%= node['motd']['templates'] %>/motd.head ] ; then
+  cat <%= node['motd']['templates'] %>/motd.head > <%= node['motd']['templates'] %>/motd.tmp
+else
+  echo > <%= node['motd']['templates'] %>/motd.tmp
+fi
+
+# Write any notifications (not using right now)
+# if [ -f <%= node['motd']['templates'] %>/motd.custom ] ; then
+#   echo >> <%= node['motd']['templates'] %>/motd.tmp
+#   cat <%= node['motd']['templates'] %>/motd.custom >> <%= node['motd']['templates'] %>/motd.tmp
+# fi
+
+# Add a new line
+echo >> <%= node['motd']['templates'] %>/motd.tmp
+
+# Add the system usage information
+cat > <%= node['motd']['templates'] %>/motd.system << EOF
+   CORES:   $CPUCORES
+   MEMORY:  $FREEMEM MB
+   SUMMARY: (collected `date`)
+      * CPU Usage (total average) = ${CPUAVG}%
+      * Memory free (real)        = ${REALMEM} MB
+      * Memory free (cache)       = ${CACHEMEM} MB
+      * Swap in use               = ${SWAPMEM} MB
+      * Load average              = ${LOADAVG}
+EOF
+
+# Write the system info to the temp file
+if [ -f <%= node['motd']['templates'] %>/motd.system ] ; then
+  cat <%= node['motd']['templates'] %>/motd.system >> <%= node['motd']['templates'] %>/motd.tmp
+else
+  echo > <%= node['motd']['templates'] %>/motd.tmp
+fi
+
+# Write the tail to the temp file
+if [ -f <%= node['motd']['templates'] %>/motd.tail ] ; then
+  cat <%= node['motd']['templates'] %>/motd.tail >> <%= node['motd']['templates'] %>/motd.tmp
+else
+  echo > <%= node['motd']['templates'] %>/motd.tmp
+fi
+
+# replace the file
+cp <%= node['motd']['templates'] %>/motd.tmp /etc/motd
+

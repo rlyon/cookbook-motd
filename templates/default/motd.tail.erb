@@ -1,0 +1,7 @@
+   
+   QUESTIONS: Submit all questions, requests, and system issues
+   to: <%= node['motd']['contact'] %>
+   <% unless node['motd']['alert'] == "" %>
+   ALERT: <%= node['motd']['alert'] %>
+   <% end %>
+   
