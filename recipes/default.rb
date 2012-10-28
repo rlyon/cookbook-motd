@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "cron"
+
 directory "#{node['motd']['templates']}" do
   mode 0755
   owner "root"

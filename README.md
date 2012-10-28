@@ -6,7 +6,8 @@ Requirements
 ============
 Tested on CentOS 5.x, CentOS 6.x
 
-Requires the cron
+Required cookbooks:
+* cron
 
 Attributes
 ==========
