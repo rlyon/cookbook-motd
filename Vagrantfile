@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "motd-berkshelf"
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "opscode-centos-6.3"
+  config.vm.box = "opscode-centos-6.4"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -80,7 +80,8 @@ Vagrant.configure("2") do |config|
     }
 
     chef.run_list = [
-        "recipe[motd::default]"
+      "recipe[minitest-handler::default]",
+      "recipe[motd::default]"
     ]
   end
 end

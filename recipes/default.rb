@@ -44,7 +44,7 @@ template "/usr/sbin/update_motd" do
   group "root"
 end
 
-cron_d "generate_motd" do 
+cron "generate_motd" do 
   minute "*/#{node['motd']['poll']}" 
   user 'root' 
   command "/usr/sbin/update_motd"
