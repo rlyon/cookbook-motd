@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-directory "#{node['motd']['templates']}" do
+directory node['motd']['templates'] do
   mode 0755
   owner "root"
   group "root"
