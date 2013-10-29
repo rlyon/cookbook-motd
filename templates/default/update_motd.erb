@@ -8,7 +8,7 @@ FREEMEM=$(<%= node['motd']['freemem'] %>)
 REALMEM=$(<%= node['motd']['realmem'] %>)
 CACHEMEM=$(<%= node['motd']['cachemem'] %>)
 SWAPMEM="$(<%= node['motd']['swapmem'] %>)"
-CPUAVG=`python -c "print '{0:.2}'.format(float($CPUTIME/$CPUCORES))"`
+CPUAVG=`ruby -e "STDOUT.write \"%0.2f\" % [$CPUTIME/$CPUCORES]"`
 
 # Write the head to the temp file
 if [ -f <%= node['motd']['templates'] %>/motd.head ] ; then
